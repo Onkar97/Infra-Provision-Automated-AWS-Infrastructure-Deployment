@@ -1,0 +1,32 @@
+name: 'Terraform CI'
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-ci:
+    name: 'Terraform Format and Validate'
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Setup Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # 3. Check if all files are correctly formatted
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      # 4. Initialize Terraform (required for validation)
+      - name: Terraform Init
+        run: terraform init
+
+      # 5. Validate the Terraform configuration
+      - name: Terraform Validate
+        run: terraform validate
