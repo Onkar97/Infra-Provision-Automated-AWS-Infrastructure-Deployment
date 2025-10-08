@@ -60,8 +60,8 @@ resource "aws_route_table_association" "public" {
 
 # Create 3 private subnets, one in each of the first 3 available AZs
 resource "aws_subnet" "private" {
-  count             = 3
-  vpc_id            = aws_vpc.main.id
+  count  = 3
+  vpc_id = aws_vpc.main.id
   # Offset the CIDR calculation to avoid overlap with public subnets
   cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + 3)
   availability_zone = var.availability_zones[count.index]
