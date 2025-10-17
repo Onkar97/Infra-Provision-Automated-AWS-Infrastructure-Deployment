@@ -1,6 +1,6 @@
-# InfraProvision – Automated AWS Infrastructure Deployment
+# Infra Provision – Automated AWS Infrastructure Deployment
 ## Overview
-InfraProvision is a project demonstrating the principles of Infrastructure as Code (IaC) using Terraform to automate the deployment of a scalable and reproducible web application infrastructure on Amazon Web Services (AWS). This project defines and manages a complete cloud environment, from networking foundations to compute and database resources, all through version-controlled code.
+Infra Provision is a project demonstrating the principles of Infrastructure as Code (IaC) using Terraform to automate the deployment of a scalable and reproducible web application infrastructure on Amazon Web Services (AWS). This project defines and manages a complete cloud environment, from networking foundations to compute and database resources, all through version-controlled code.
 
 The primary goal is to eliminate manual configuration, reduce deployment errors, and create a consistent environment that can be provisioned and destroyed on demand.
 
