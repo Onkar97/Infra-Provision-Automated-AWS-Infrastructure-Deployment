@@ -1,6 +1,4 @@
-# Go Microservices Application on AWS
-
-## Nexus-Serve: AWS Cloud Native Full Stack Automation Platform
+# Nexus-Serve: AWS Cloud Native Full Stack Automation Platform
 This project is a highly available microservices application engineered with Go (Golang) and deployed on AWS. It demonstrates a robust, cloud-native architecture designed for scalability, security, and automated deployment.
 
 ## Architecture & Infrastructure
