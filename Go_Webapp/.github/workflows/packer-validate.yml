@@ -1,0 +1,40 @@
+name: 'Packer Validate'
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  packer-check:
+    name: Validate Packer Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+
+      - name: Packer Format Check
+        run: packer fmt -check packer/
+
+      - name: Create Dummy Artifact for Validation
+        run: |
+              sudo apt-get install zip -y
+              # Updated to zip Go source files instead of Node.js files
+              # This ensures the 'provisioner "file"' in Packer finds the webapp.zip it expects
+              sudo zip -r webapp.zip controllers db middleware models routers scripts tests go.mod go.sum main.go
+
+      - name: Init Packer
+        run: packer init packer/ 
+
+      - name: Packer Validate
+        # We pass dummy values for variables that are usually secrets or calculated at runtime
+        run: |
+          packer validate \
+            -var 'aws_dev_id=dummy' \
+            -var 'aws_demo_id=dummy' \
+            -var 'source_ami=dummy' \
+            -var 'ubuntu_owner=dummy' \
+            packer/

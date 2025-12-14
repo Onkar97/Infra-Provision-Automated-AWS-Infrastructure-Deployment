@@ -1,0 +1,56 @@
+name: test-webapp CI
+
+on:
+  pull_request:
+    branches: 
+     - main 
+
+jobs:
+  test:
+    name: Test Integration
+    runs-on: ubuntu-latest
+    # Define the PostgreSQL service container
+    services:
+      postgres:
+        image: postgres:17
+        # Set up the database using the service's environment variables
+        env:
+          POSTGRES_USER: ${{ secrets.DBUSER }}
+          POSTGRES_PASSWORD: ${{ secrets.DBPASSWORD }}
+          POSTGRES_DB: ${{ secrets.DBNAME }}
+        ports:
+          # Map port 5432 of the service to port 5432 on the runner
+          - 5432:5432
+
+    steps:
+      # 1. Check out your repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Go environment (Replaces Node.js)
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21' 
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: go mod download
+
+      # 4. Run Build (Verify compilation)
+      - name: Run build
+        # 'npm run build' equivalent: Compiles all packages in the module
+        run: go build -v ./...
+
+      # 5. Run tests
+      - name: Run tests
+        # 'npm test' equivalent: Runs all tests in the module
+        run: go test -v ./...
+        # Set environment variables for the test script to connect to the service DB
+        env:
+          DBUSER: ${{ secrets.DBUSER }}
+          DBPASSWORD: ${{ secrets.DBPASSWORD }}
+          DBNAME: ${{ secrets.DBNAME }}
+          # The host is 'localhost' because the port is mapped from the service container
+          DBHOST: localhost 
+          DBPORT: 5432
